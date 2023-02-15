@@ -273,26 +273,4 @@ public class DrivetrainSubsystem extends SubsystemBase {
         backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 states[3].angle.getRadians());
     }
-
-    public void autoBalenceTick() {
-        double theta;
-        double pitch = (pigeon.getPitch() + m_navx.getPitch()) / 2;
-        double roll = (pigeon.getRoll() + m_navx.getRoll()) / 2;
-        if (Math.abs(roll) <= 2)
-            if (Math.abs(pitch) <= 2)
-                theta = Double.NaN;
-            else
-                theta = 0;
-        else if (Math.abs(pitch) <= 2)
-            theta = 90;
-        else
-            theta = Math.toDegrees(Math
-                    .atan(Math.sin(Math.toRadians(roll)) / Math.sin(Math.toRadians(pitch))));
-        System.out.println("Average Pitch" + pitch);
-        System.out.println("Average Roll" + roll);
-        System.out.println(theta);
-        SmartDashboard.putNumber("Theta", theta);
-        if (theta != Double.NaN)
-            drive(new ChassisSpeeds(Math.sin(Math.toRadians(theta)), Math.cos(Math.toRadians(theta)), -theta));
-    }
 }
